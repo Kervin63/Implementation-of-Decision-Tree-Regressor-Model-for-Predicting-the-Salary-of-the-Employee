@@ -23,45 +23,55 @@ To write a program to implement the Decision Tree Regressor Model for Predicting
 ## Program:
 ```
 /*
+
 Program to implement the Decision Tree Regressor Model for Predicting the Salary of the Employee.
-Developed by: Kervin.S
-RegisterNumber:212225220051
-import numpy as np
-from sklearn.tree import DecisionTreeRegressor
+Developed by:  Kervin.S
+RegisterNumber:  212225220051 */
+
+import pandas as pd
+import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeRegressor, plot_tree
+from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 
-X = np.array([
-    [1],
-    [2],
-    [3],
-    [4],
-    [5],
-    [6],
-    [7],
-    [8]
-])
+data = {
+    'Experience': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    'Salary': [25000, 30000, 35000, 45000, 55000, 65000, 75000, 85000, 95000, 110000]
+}
 
-Y = np.array([20000, 30000, 40000, 50000, 60000, 70000, 80000, 90000])
+df = pd.DataFrame(data)
 
-X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, random_state=0)
+X = df[['Experience']]
+y = df['Salary']
 
-model = DecisionTreeRegressor()
-model.fit(X_train, Y_train)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-Y_pred = model.predict(X_test)
+model = DecisionTreeRegressor(random_state=42)
+model.fit(X_train, y_train)
 
-print("Predicted Salaries:", Y_pred)
+y_pred = model.predict(X_test)
 
-sample = np.array([[5]])
-prediction = model.predict(sample)
+mse = mean_squared_error(y_test, y_pred)
+mae = mean_absolute_error(y_test, y_pred)
+r2 = r2_score(y_test, y_pred)
 
-print("Predicted Salary for 5 years experience:", prediction[0])
-*/
+print("Mean Squared Error (MSE):", mse)
+print("Mean Absolute Error (MAE):", mae)
+print("R2 Score:", r2)
+
+plt.figure(figsize=(12,6))
+plot_tree(model,
+          feature_names=['Experience'],
+          filled=True,
+          rounded=True)
+plt.title("Decision Tree Regressor - Salary Prediction")
+plt.show()
+
+
 ```
 
 ## Output:
-<img width="524" height="55" alt="image" src="https://github.com/user-attachments/assets/8f1debca-40d6-40cb-8850-1ad464668150" />
-
+<img width="1371" height="686" alt="image" src="https://github.com/user-attachments/assets/ed9527aa-8b63-470c-b0e9-e3df0d82be6c" />
 
 
 ## Result:
